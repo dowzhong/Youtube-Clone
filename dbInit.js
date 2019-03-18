@@ -2,7 +2,7 @@ const Sequelize = require('sequelize')
 
 const sequelize = new Sequelize('database', process.env.DBUSER, process.env.DBPASS, {
     host: 'localhost',
-    dialec: 'sqlite',
+    dialect: 'sqlite',
     operatorsAliases: false,
     storage: './database.sqlite',
     logging: false
@@ -26,10 +26,6 @@ const Tag = sequelize.define('tag', {
         type: Sequelize.STRING
     }
 })
-
-Tag.belongsTo(Video)
-Video.hasMany(Tag)
-
 
 sequelize.sync({ force: process.argv.includes('-f')})
     .then(() => {

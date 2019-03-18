@@ -7,15 +7,7 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const helmet = require('helmet')
 
-const Sequelize = require('sequelize')
-
-const sequelize = new Sequelize('database', process.env.DBUSER, process.env.DBPASS, {
-    host: 'localhost',
-    dialec: 'sqlite',
-    operatorsAliases: false,
-    storage: './database.sqlite',
-    logging: false
-})
+const { Video } = require('./database.js')
 
 const uuid = require('uuid/v4')
 
@@ -27,7 +19,10 @@ app.use(bodyParser.urlencoded({
 app.use(cors())
 app.use(helmet())
 
-
+Video.create({
+    title: 'Big gay',
+    description: 'Default'
+}).then(console.log)
 
 app.listen(process.env.PORT, () => console.log('Running on', process.env.PORT))
 
