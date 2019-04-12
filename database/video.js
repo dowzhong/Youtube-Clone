@@ -12,6 +12,9 @@ module.exports = (sequelize, datatypes) => {
         },
         description: {
             type: datatypes.STRING
+        },
+        videoPath: {
+            type: datatypes.STRING
         }
     })
 }

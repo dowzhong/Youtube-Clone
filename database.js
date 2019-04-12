@@ -13,6 +13,7 @@ const Video = sequelize.import('./database/video.js')
 const Tag = sequelize.import('./database/tag.js')
 
 Video.hasMany(Tag)
+
 Tag.hasOne(Video)
 
 module.exports = { Video, Tag }

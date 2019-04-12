@@ -16,7 +16,26 @@ app.use(bodyParser.urlencoded({
 app.use(cors())
 app.use(helmet())
 
+app.get('/video', (req, res) => {
 
+})
+
+app.post('/uploadVideo', (req, res) => {
+    const { title, description, tags } = req.body
+    if (!title) {
+        res.status(400).json({
+            success: false,
+            response: 'Missing video title.'
+        })
+        return
+    }
+
+    //todo accept upload, save it on disk and set videoPath accordingly
+    Video.create({
+        title,
+        description
+    })
+})
 
 app.listen(process.env.PORT, () => console.log('Running on', process.env.PORT))
 
