@@ -16,4 +16,4 @@ Video.hasMany(Tag)
 
 Tag.hasOne(Video)
 
-module.exports = { Video, Tag }
+module.exports = { Video, Tag, sequelize }

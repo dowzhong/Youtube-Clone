@@ -8,13 +8,17 @@ module.exports = (sequelize, datatypes) => {
             defaultValue: uuid()
         },
         title: {
-            type: datatypes.STRING
+            type: datatypes.STRING,
+            allowNull: false
         },
         description: {
-            type: datatypes.STRING
+            type: datatypes.STRING,
+            allowNull: false,
+            defaultValue: ''
         },
         videoPath: {
-            type: datatypes.STRING
+            type: datatypes.STRING,
+            allowNull: false
         }
     })
 }
