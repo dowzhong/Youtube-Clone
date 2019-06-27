@@ -75,4 +75,7 @@ typings/
 # FuseBox cache
 .fusebox/
 .DS_Store
-public/videos/video.mp4
+public/videos
+public/thumbnails
+*.production
+*.sqlite

@@ -1,0 +1,10 @@
+.videos {
+    text-align: center;
+}
+
+.thumbnail {
+    text-align: left;
+    padding: 1rem;
+    background:none;
+    border:none;
+}
