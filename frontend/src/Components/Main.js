@@ -21,9 +21,11 @@ class Main extends Component {
     componentDidMount() {
         getVideos()
             .then(body => {
-                if (body.success) {
+                if (body && body.success) {
                     this.setState({ videos: body.response });
+                    return;
                 }
+                this.setState({ videos: [] });
             })
     }
 
