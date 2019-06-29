@@ -1,8 +1,11 @@
 .videos {
     margin: .5rem;
+    margin-right: auto;
 }
 
-
+.uploadDate {
+    float: right;
+}
 
 .thumbnail {
     text-align: left;
@@ -12,4 +15,11 @@
 
 .videoThumbnail{
     margin: .5rem;
+}
+
+.nothing {
+    text-align: center;
+    margin: auto;
+    width: 50%;
+    padding: 10px;
 }

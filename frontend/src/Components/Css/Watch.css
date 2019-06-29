@@ -1,0 +1,19 @@
+.watch{
+    width: 70%;
+    margin: 1rem auto;
+}
+
+.videoPlayer {
+    width: 100%;
+}
+
+.metadata {
+    text-align: left;
+    overflow-wrap: break-word;
+}
+
+.title {
+    margin: .5rem 0;
+    font-size: 1.8rem;
+    font-weight: 400;
+}

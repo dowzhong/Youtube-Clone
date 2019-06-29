@@ -37,6 +37,14 @@ app.post('/uploadVideo', async (req, res) => {
         return;
     }
 
+    if (title.length > 100) {
+        res.status(400).json({
+            success: false,
+            response: 'Video title must not exceed 100 characters.'
+        });
+        return;
+    }
+
     if (!req.files.video) {
         res.status(400).json({
             success: false,
@@ -64,7 +72,7 @@ app.post('/uploadVideo', async (req, res) => {
                 sourcePath: `./public/videos/${uploadedFile.id}.mp4`,
                 thumbnailPath: `./public/thumbnails`,
             });
-            await tg.generateOneByPercent(50, {
+            await tg.generateOneByPercent(Math.trunc(Math.random() * 100), {
                 size: '1280x720'
             });
             res.json({
@@ -89,7 +97,7 @@ app.get('/videos', async (req, res) => {
     });
     res.json({
         success: true,
-        response: videos.map(video => ({ id: video.id, title: video.title, description: video.description, videoPath: `${process.env.API}/videos/${video.id}.mp4` }))
+        response: videos
     });
 });
 
