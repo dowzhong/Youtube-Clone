@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import './Css/Upload.css'
+
 import request from 'superagent';
 
 class Main extends Component {
@@ -43,7 +45,7 @@ class Main extends Component {
             .catch(err => {
                 if (!err.response) {
                     this.setState({ error: 'Uh oh! It seems like your connection has timed out!' });
-                    console.log(err);
+                    console.error(err);
                     return;
                 }
                 this.setState({ error: err.response.body.response });
@@ -57,14 +59,19 @@ class Main extends Component {
                         ? <p>{this.state.error}</p>
                         : null
                 }
-                <form ref='uploadForm'
-                    id='uploadForm'
-                    action={process.env.REACT_APP_API + '/uploadVideo'}
-                    method='post'
-                    encType='multipart/form-data'>
+                <div className='Upload'>
+                </div>
+                <form>
                     <input type='file' name='video' ref='video' />
-                    <input type='text' name='title' ref='title' />
-                    <input type='submit' value='Upload!' onClick={this.uploadVideo} />
+                    <div className='form-group'>
+                        <label for='title'>Video Title</label>
+                        <input type='text' ref='title' className='form-control' id='title' placeholder='Video Title' />
+                    </div>
+                    <div className='form-group'>
+                        <label for='description'>Video Description</label>
+                        <textarea className='form-control' id='description' rows='3'></textarea>
+                    </div>
+                    <button className='btn btn-primary btn-lg' type='submit' onClick={this.uploadVideo}>Upload</button>
                 </form>
                 {
                     this.state.progress

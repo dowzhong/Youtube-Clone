@@ -1,10 +1,15 @@
 .videos {
-    text-align: center;
+    margin: .5rem;
 }
+
+
 
 .thumbnail {
     text-align: left;
-    padding: 1rem;
     background:none;
     border:none;
+}
+
+.videoThumbnail{
+    margin: .5rem;
 }
