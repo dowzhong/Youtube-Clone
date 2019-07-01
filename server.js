@@ -3,7 +3,7 @@ require('dotenv').config();
 const fs = require('fs');
 
 const uuid = require('uuid/v4');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const express = require('express');
@@ -30,7 +30,14 @@ app.use(helmet());
 app.use(fileUpload());
 
 app.post('/uploadVideo', async (req, res) => {
-    const { title, description, tags } = req.body
+    const { title, description, tags, token } = req.body
+    if (!token) {
+        res.status(403).json({
+            success: false,
+            response: 'You are not logged in.'
+        });
+        return;
+    }
     if (!title) {
         res.status(400).json({
             success: false,
@@ -56,37 +63,57 @@ app.post('/uploadVideo', async (req, res) => {
     }
 
     try {
-        const uploadedFile = await Video.create({
-            id: uuid(),
-            title,
-            description
-        });
-
-        req.files.video.mv(`./public/videos/${uploadedFile.id}.mp4`, async err => {
-            if (err) {
-                res.status(500).json({
+        const { userID } = await verify(token);
+        try {
+            const uploader = await User.findOne({
+                where: {
+                    id: userID
+                }
+            });
+            if (!uploader) {
+                res.status(400).json({
                     success: false,
-                    response: 'Unexpected issue with server.'
+                    response: 'User does not exist. Did you fake the token?'
                 });
                 return;
             }
-            const tg = new ThumbnailGenerator({
-                sourcePath: `./public/videos/${uploadedFile.id}.mp4`,
-                thumbnailPath: `./public/thumbnails`,
+            const uploadedFile = await Video.create({
+                id: uuid(),
+                title,
+                description
             });
-            await tg.generateOneByPercent(Math.trunc(Math.random() * 100), {
-                size: '1280x720'
+            uploadedFile.setUser(uploader);
+            req.files.video.mv(`./public/videos/${uploadedFile.id}.mp4`, async err => {
+                if (err) {
+                    res.status(500).json({
+                        success: false,
+                        response: 'Unexpected issue with server.'
+                    });
+                    return;
+                }
+                const tg = new ThumbnailGenerator({
+                    sourcePath: `./public/videos/${uploadedFile.id}.mp4`,
+                    thumbnailPath: `./public/thumbnails`,
+                });
+                await tg.generateOneByPercent(Math.trunc(Math.random() * 100), {
+                    size: '1280x720'
+                });
+                res.json({
+                    success: true,
+                    response: ''
+                });
             });
-            res.json({
-                success: true,
-                response: ''
+        } catch (err) {
+            console.error(err);
+            res.status(400).json({
+                success: false,
+                response: err.message
             });
-        });
+        }
     } catch (err) {
-        console.error(err);
         res.status(400).json({
             success: false,
-            response: err.message
+            response: 'Malformed or Invalid Token/Secret.'
         });
     }
 });
@@ -95,6 +122,9 @@ app.get('/videos', async (req, res) => {
     const videos = await Video.findAll({
         order: [
             ['createdAt', 'DESC']
+        ],
+        include: [
+            { model: User, attributes: ['username'] }
         ]
     });
     res.json({
@@ -105,13 +135,20 @@ app.get('/videos', async (req, res) => {
 
 app.post('/authenticate', async (req, res) => {
     const { username, password } = req.body;
+    if (!username || !password) {
+        res.status(400).json({
+            success: false,
+            response: 'Username and password cannot be blank.'
+        });
+        return;
+    }
     const user = await User.findOne({
         where: {
             username: username.toLowerCase()
         }
     });
     if (!user) {
-        res.json({
+        res.status(400).json({
             success: false,
             response: 'That combination of username and password does not exist.'
         });
@@ -119,7 +156,7 @@ app.post('/authenticate', async (req, res) => {
     }
     const hashMatches = await compare(password, user.passwordHash);
     if (!hashMatches) {
-        res.json({
+        res.status(400).json({
             success: false,
             response: 'That combination of username and password does not exist.'
         });
@@ -128,12 +165,19 @@ app.post('/authenticate', async (req, res) => {
     const token = await signToken({ userID: user.id });
     res.json({
         success: true,
-        response: { token }
+        response: { token, username: user.username }
     });
 });
 
 app.post('/register', async (req, res) => {
     const { username, password } = req.body;
+    if (!username || !password) {
+        res.status(400).json({
+            success: false,
+            response: 'Username and password cannot be blank.'
+        });
+        return;
+    }
     const passwordHash = await hash(password);
     try {
         const user = await User.create({
@@ -148,7 +192,7 @@ app.post('/register', async (req, res) => {
         });
     } catch (err) {
         if (err.name === 'SequelizeUniqueConstraintError') {
-            res.json({
+            res.status(409).json({
                 success: false,
                 response: 'This username is already registered!'
             });
@@ -161,7 +205,7 @@ module.exports = app;
 
 function hash(password, saltRounds = 10) {
     return new Promise((resolve, reject) => {
-        bcrypt.hash(password, saltRounds, function (err, hash) {
+        bcrypt.hash(password, saltRounds, (err, hash) => {
             if (err) {
                 reject(err);
                 return;
@@ -173,7 +217,7 @@ function hash(password, saltRounds = 10) {
 
 function compare(password, hash) {
     return new Promise((resolve, reject) => {
-        bcrypt.compare(password, hash, function (err, res) {
+        bcrypt.compare(password, hash, (err, res) => {
             if (err) {
                 reject(err);
                 return;
@@ -185,12 +229,24 @@ function compare(password, hash) {
 
 function signToken(data) {
     return new Promise((resolve, reject) => {
-        jwt.sign(data, 'supersecuresecret', function (err, token) {
+        jwt.sign(data, process.env.JWTSECRET, (err, token) => {
             if (err) {
                 reject(err);
                 return;
             }
             resolve(token);
+        });
+    });
+}
+
+function verify(token) {
+    return new Promise((resolve, reject) => {
+        jwt.verify(token, process.env.JWTSECRET, (err, decoded) => {
+            if (err) {
+                reject(err);
+                return;
+            }
+            resolve(decoded);
         });
     });
 }

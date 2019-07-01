@@ -43,17 +43,6 @@ class Watch extends Component {
                             <source src={process.env.REACT_APP_API + '/videos/' + this.state.videoSrc + '.mp4'} type='video/mp4' />
                             Your browser does not support the video tag. Please use Chrome.
                         </video>
-                        <div class="dropdown show">
-                            <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Dropdown link
-  </a>
-
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                <a class="dropdown-item" href="#">Action</a>
-                                <a class="dropdown-item" href="#">Another action</a>
-                                <a class="dropdown-item" href="#">Something else here</a>
-                            </div>
-                        </div>
                     </div>
                     <div className='details'>
                         {
@@ -65,7 +54,7 @@ class Watch extends Component {
                                 </div>
                                 : <div className='alert alert-danger' role='alert'>
                                     Failed to fetch video metadata.
-                        </div>
+                                </div>
                         }
                     </div>
                 </div>

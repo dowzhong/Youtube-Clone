@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import Navbar from './Navbar.js';
 import './Css/Upload.css'
 
+import { Redirect } from 'react-router-dom'
+
 import request from 'superagent';
 
 class Main extends Component {
@@ -11,7 +13,8 @@ class Main extends Component {
         this.state = {
             video: null,
             progress: null,
-            error: null
+            error: null,
+            token: localStorage.getItem('token')
         }
         this.uploadVideo = this.uploadVideo.bind(this);
     }
@@ -33,7 +36,7 @@ class Main extends Component {
         data.append('video', this.refs.video.files[0], this.refs.video.files[0].name);
         data.append('title', this.refs.title.value || this.refs.video.files[0].name);
         data.append('description', this.refs.description.value);
-
+        data.append('token', this.state.token);
         request
             .post(process.env.REACT_APP_API + '/uploadVideo')
             .send(data)
@@ -54,6 +57,9 @@ class Main extends Component {
             })
     }
     render() {
+        if (!this.state.token) {
+            return <Redirect to='/login'/>
+        }
         return (
             <div>
                 <Navbar noUpload={true} />

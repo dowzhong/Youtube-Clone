@@ -1,30 +1,37 @@
 import React, { Component } from 'react';
 
 import Navbar from './Navbar.js';
-import './Css/Login.css';
+import './Css/Register.css';
 
 import request from 'superagent';
 
-class Login extends Component {
+class Register extends Component {
     constructor(props) {
         super(props);
         this.state = {
             error: null
         }
-        this.login = this.login.bind(this);
+        this.register = this.register.bind(this);
     }
 
-    async login() {
+    async register() {
         this.setState({ error: null });
+        if (!this.refs.username.value) {
+            this.setState({ error: 'Invalid username.' });
+            return;
+        }
+        if (this.refs.confirmPassword.value !== this.refs.password.value) {
+            this.setState({ error: 'The password you\'ve confirmed does not match.' });
+            return;
+        }
         try {
             const { body } = await request
-                .post(process.env.REACT_APP_API + '/authenticate')
+                .post(process.env.REACT_APP_API + '/register')
                 .send({
                     username: this.refs.username.value,
                     password: this.refs.password.value
                 });
             localStorage.setItem('token', body.response.token);
-            localStorage.setItem('username', body.response.username);
             window.location.replace('/');
         } catch (err) {
             if (err.response) {
@@ -47,7 +54,7 @@ class Login extends Component {
                             </div>
                             : null
                     }
-                    <div className='login'>
+                    <div className='register'>
                     </div>
                     <div className='form-group'>
                         <label>Username</label>
@@ -57,12 +64,15 @@ class Login extends Component {
                         <label>Password</label>
                         <input ref='password' type='password' className='form-control' placeholder='Your super secure password' />
                     </div>
-                    <button className='btn btn-primary btn-lg' type='submit' onClick={this.login}>Log in</button>
-
+                    <div className='form-group'>
+                        <label>Confirm Password</label>
+                        <input ref='confirmPassword' type='password' className='form-control' placeholder='Confirm your super secure password' />
+                    </div>
+                    <button className='btn btn-primary btn-lg' type='submit' onClick={this.register}>Register</button>
                 </div>
             </div>
         )
     }
 }
 
-export default Login;
+export default Register;

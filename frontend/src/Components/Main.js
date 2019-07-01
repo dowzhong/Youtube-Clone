@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 import request from 'superagent';
-import queryString from 'query-string';
 
 import Navbar from './Navbar.js';
 import './Css/Main.css';
@@ -17,8 +16,7 @@ class Main extends Component {
         super();
         this.state = {
             videos: [],
-            shownVideos: [],
-            token: queryString.parse(window.location.search).token
+            shownVideos: []
         }
         this.renderSearch = this.renderSearch.bind(this);
     }
@@ -41,7 +39,7 @@ class Main extends Component {
     render() {
         return (
             <div>
-                <Navbar state={this.state} />
+                <Navbar />
                 {!this.state.videos.length
                     ? <div className='nothing'><h3>No videos yet...</h3></div>
                     : (
@@ -61,7 +59,7 @@ class Main extends Component {
                                                                 <img className='card-img-top' src={getThumbnailUrl(video.id)} alt='thumbnail' />
                                                                 <div className='card-body'>
                                                                     <b className='card-text'>{video.title}</b>
-                                                                    <span className="badge badge-pill badge-primary uploadDate">{new Date(video.createdAt).toLocaleDateString()}</span>
+                                                                    <p class="card-text"><small class="text-muted">Uploaded by <b>{video.user.username}</b> on {new Date(video.createdAt).toLocaleDateString()}</small></p>
                                                                 </div>
                                                             </div>
                                                         </a>
