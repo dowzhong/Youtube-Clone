@@ -1,19 +1,21 @@
-require('dotenv').config()
+require('dotenv').config();
 
-const Sequelize = require('sequelize')
+const Sequelize = require('sequelize');
 const sequelize = new Sequelize('database', process.env.DBUSER, process.env.DBPASS, {
     host: 'localhost',
     dialect: 'sqlite',
     operatorsAliases: false,
     storage: './database.sqlite',
     logging: false
-})
+});
 
-const Video = sequelize.import('./database/video.js')
-const Tag = sequelize.import('./database/tag.js')
+const Video = sequelize.import('./database/video.js');
+const Tag = sequelize.import('./database/tag.js');
+const User = sequelize.import('./database/user.js');
 
-Video.hasMany(Tag)
+Video.belongsTo(User);
+User.hasMany(Video);
+Video.hasMany(Tag);
+Tag.belongsTo(Video);
 
-Tag.belongsTo(Video)
-
-module.exports = { Video, Tag, sequelize }
+module.exports = { Video, Tag, User, sequelize }
