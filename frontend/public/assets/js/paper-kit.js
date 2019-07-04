@@ -185,7 +185,7 @@ pk = {
 
   initPopovers: function() {
     if ($('[data-toggle="popover"]').length != 0) {
-      $('body').append('<div class="popover-filter"></div>');
+      $('body').append('<div className="popover-filter"></div>');
 
       //    Activate Popovers
       $('[data-toggle="popover"]').popover().on('show.bs.popover', function() {

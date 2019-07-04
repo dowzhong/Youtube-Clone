@@ -17,3 +17,35 @@
     font-size: 1.8rem;
     font-weight: 400;
 }
+
+.actions {
+    float: right;
+}
+
+.title {
+    color: white;
+}
+
+.text-muted {
+    color: rgb(187, 187, 187) !important;
+}
+
+.description p {
+    color: rgb(226, 226, 226);
+}
+
+.modal-title {
+    color: black;
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+.suggestedVideos {
+    margin-top: 1rem;
+}
+
+.noDesc {
+    font-style: italic;
+}

@@ -32,6 +32,7 @@ class Register extends Component {
                     password: this.refs.password.value
                 });
             localStorage.setItem('token', body.response.token);
+            localStorage.setItem('username', body.response.username);
             window.location.replace('/');
         } catch (err) {
             if (err.response) {

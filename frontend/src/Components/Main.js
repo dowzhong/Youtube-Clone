@@ -5,6 +5,8 @@ import request from 'superagent';
 import Navbar from './Navbar.js';
 import './Css/Main.css';
 
+import { truncate, getThumbnailUrl } from '../utils.js';
+
 async function getVideos() {
     const { body } = await request
         .get(process.env.REACT_APP_API + '/videos');
@@ -58,8 +60,8 @@ class Main extends Component {
                                                             <div className='videoThumbnail card' style={{ width: '20rem' }}>
                                                                 <img className='card-img-top' src={getThumbnailUrl(video.id)} alt='thumbnail' />
                                                                 <div className='card-body'>
-                                                                    <b className='card-text'>{video.title}</b>
-                                                                    <p class="card-text"><small class="text-muted">Uploaded by <b>{video.user.username}</b> on {new Date(video.createdAt).toLocaleDateString()}</small></p>
+                                                                    <b className='card-text'>{truncate(video.title, 20)}</b>
+                                                                    <p className="card-text"><small className="text-muted">Uploaded by <b>{truncate(video.user.username, 5)}</b> on {new Date(video.createdAt).toLocaleDateString()}</small></p>
                                                                 </div>
                                                             </div>
                                                         </a>
@@ -76,10 +78,6 @@ class Main extends Component {
             </div>
         )
     }
-}
-
-function getThumbnailUrl(videoID) {
-    return process.env.REACT_APP_API + '/thumbnails/' + videoID + '-thumbnail-1280x720-0001.png';
 }
 
 export default Main;

@@ -239,7 +239,7 @@
           topRow.append($('<td>')
             .append($('<a>').attr({
               href: '#',
-              tabindex: '-1',
+              tabIndex: '-1',
               'title': options.tooltips.incrementHour
             }).addClass('btn').attr('data-action', 'incrementHours').append($('<span>').addClass(options.icons.up))));
           middleRow.append($('<td>')
@@ -250,7 +250,7 @@
           bottomRow.append($('<td>')
             .append($('<a>').attr({
               href: '#',
-              tabindex: '-1',
+              tabIndex: '-1',
               'title': options.tooltips.decrementHour
             }).addClass('btn').attr('data-action', 'decrementHours').append($('<span>').addClass(options.icons.down))));
         }
@@ -263,7 +263,7 @@
           topRow.append($('<td>')
             .append($('<a>').attr({
                 href: '#',
-                tabindex: '-1',
+                tabIndex: '-1',
                 'title': options.tooltips.incrementMinute
               }).addClass('btn').attr('data-action', 'incrementMinutes')
               .append($('<span>').addClass(options.icons.up))));
@@ -275,7 +275,7 @@
           bottomRow.append($('<td>')
             .append($('<a>').attr({
                 href: '#',
-                tabindex: '-1',
+                tabIndex: '-1',
                 'title': options.tooltips.decrementMinute
               }).addClass('btn').attr('data-action', 'decrementMinutes')
               .append($('<span>').addClass(options.icons.down))));
@@ -289,7 +289,7 @@
           topRow.append($('<td>')
             .append($('<a>').attr({
                 href: '#',
-                tabindex: '-1',
+                tabIndex: '-1',
                 'title': options.tooltips.incrementSecond
               }).addClass('btn btn-link').attr('data-action', 'incrementSeconds')
               .append($('<span>').addClass(options.icons.up))));
@@ -301,7 +301,7 @@
           bottomRow.append($('<td>')
             .append($('<a>').attr({
                 href: '#',
-                tabindex: '-1',
+                tabIndex: '-1',
                 'title': options.tooltips.decrementSecond
               }).addClass('btn btn-link').attr('data-action', 'decrementSeconds')
               .append($('<span>').addClass(options.icons.down))));
@@ -312,7 +312,7 @@
           middleRow.append($('<td>')
             .append($('<button>').addClass('btn btn-outline-primary btn-round').attr({
               'data-action': 'togglePeriod',
-              tabindex: '-1',
+              tabIndex: '-1',
               'title': options.tooltips.togglePeriod
             })));
           bottomRow.append($('<td>').addClass('separator'));
@@ -692,7 +692,7 @@
         }
 
         while (!startYear.isAfter(endYear, 'y')) {
-          html += '<span data-action="selectYear" class="year' + (startYear.isSame(date, 'y') && !unset ? ' active' : '') + (!isValid(startYear, 'y') ? ' disabled' : '') + '">' + startYear.year() + '</span>';
+          html += '<span data-action="selectYear" className="year' + (startYear.isSame(date, 'y') && !unset ? ' active' : '') + (!isValid(startYear, 'y') ? ' disabled' : '') + '">' + startYear.year() + '</span>';
           startYear.add(1, 'y');
         }
 
@@ -735,7 +735,7 @@
           endDecadeYear = startDecade.year() + 12;
           minDateDecade = options.minDate && options.minDate.isAfter(startDecade, 'y') && options.minDate.year() <= endDecadeYear;
           maxDateDecade = options.maxDate && options.maxDate.isAfter(startDecade, 'y') && options.maxDate.year() <= endDecadeYear;
-          html += '<span data-action="selectDecade" class="decade' + (date.isAfter(startDecade) && date.year() <= endDecadeYear ? ' active' : '') +
+          html += '<span data-action="selectDecade" className="decade' + (date.isAfter(startDecade) && date.year() <= endDecadeYear ? ' active' : '') +
             (!isValid(startDecade, 'y') && !minDateDecade && !maxDateDecade ? ' disabled' : '') + '" data-selection="' + (startDecade.year() + 6) + '">' + (startDecade.year() + 1) + ' - ' + (startDecade.year() + 12) + '</span>';
           startDecade.add(12, 'y');
         }
@@ -778,7 +778,7 @@
           if (currentDate.weekday() === 0) {
             row = $('<tr>');
             if (options.calendarWeeks) {
-              row.append('<td class="cw">' + currentDate.week() + '</td>');
+              row.append('<td className="cw">' + currentDate.week() + '</td>');
             }
             html.push(row);
           }
@@ -807,7 +807,7 @@
             classNames: clsNames
           });
           // Creative Tim - we added a div inside each td for design purposes
-          row.append('<td data-action="selectDay" data-day="' + currentDate.format('L') + '" class="' + clsNames.join(' ') + '"><div>' + currentDate.date() + '</div></td>');
+          row.append('<td data-action="selectDay" data-day="' + currentDate.format('L') + '" className="' + clsNames.join(' ') + '"><div>' + currentDate.date() + '</div></td>');
           currentDate.add(1, 'd');
         }
 
@@ -835,7 +835,7 @@
             html.push(row);
           }
           // Creative Tim - we added a div inside each class hour for design purposes
-          row.append('<td data-action="selectHour" class="hour' + (!isValid(currentHour, 'h') ? ' disabled' : '') + '"><div>' + currentHour.format(use24Hours ? 'HH' : 'hh') + '</div></td>');
+          row.append('<td data-action="selectHour" className="hour' + (!isValid(currentHour, 'h') ? ' disabled' : '') + '"><div>' + currentHour.format(use24Hours ? 'HH' : 'hh') + '</div></td>');
           currentHour.add(1, 'h');
         }
         table.empty().append(html);
@@ -854,7 +854,7 @@
             html.push(row);
           }
           // Creative Tim - we added a div inside each class minute for design purposes
-          row.append('<td data-action="selectMinute" class="minute' + (!isValid(currentMinute, 'm') ? ' disabled' : '') + '"><div>' + currentMinute.format('mm') + '</div></td>');
+          row.append('<td data-action="selectMinute" className="minute' + (!isValid(currentMinute, 'm') ? ' disabled' : '') + '"><div>' + currentMinute.format('mm') + '</div></td>');
           currentMinute.add(step, 'm');
         }
         table.empty().append(html);
@@ -872,7 +872,7 @@
             html.push(row);
           }
           // Creative Tim - we added a div inside each class seconds for design purposes
-          row.append('<td data-action="selectSecond" class="second' + (!isValid(currentSecond, 's') ? ' disabled' : '') + '"><div>' + currentSecond.format('ss') + '</div></td>');
+          row.append('<td data-action="selectSecond" className="second' + (!isValid(currentSecond, 's') ? ' disabled' : '') + '"><div>' + currentSecond.format('ss') + '</div></td>');
           currentSecond.add(5, 's');
         }
 

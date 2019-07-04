@@ -2,6 +2,7 @@ import React from 'react';
 
 function logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('username');
 }
 
 const Navbar = (props) => {
@@ -14,10 +15,10 @@ const Navbar = (props) => {
                     <button className='navbar-toggler' type='button' data-toggle='collapse' data-target='#navbarNav' aria-controls='navbarNav' aria-expanded='false' aria-label='Toggle navigation'>
                         <span className='navbar-toggler-icon'></span>
                     </button>
-                    <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav">
-                            <li class="nav-item">
-                                <p class="nav-link">{localStorage.getItem('username')}</p>
+                    <div className="collapse navbar-collapse" id="navbarNav">
+                        <ul className="navbar-nav">
+                            <li className="nav-item">
+                                <p className="nav-link">{localStorage.getItem('username')}</p>
                             </li>
                         </ul>
                     </div>
