@@ -99,11 +99,11 @@ class Watch extends Component {
 
     renderDescription(description) {
         if (description.length > 100 && !this.state.fullDescription) {
-            return <p>{description.slice(0, 97)}... <p className='clickable' onClick={this.renderFullDescription.bind(null, true)}>Show More</p></p>;
+            return <p>{description.slice(0, 97)}... <p className='clickable toggleDescription' onClick={this.renderFullDescription.bind(null, true)}>Show More</p></p>;
         }
         return [
             <p>{description}</p>,
-            <p className='clickable' onClick={this.renderFullDescription.bind(null, false)}>Show Less</p>
+            <p className='clickable toggleDescription' onClick={this.renderFullDescription.bind(null, false)}>Show Less</p>
         ];
     }
 
@@ -204,7 +204,7 @@ class Watch extends Component {
                                                                 <div className='videoThumbnail card' style={{ width: '15rem' }}>
                                                                     <img className='card-img-top' src={getThumbnailUrl(video.id)} alt='thumbnail' />
                                                                     <div className='card-body'>
-                                                                        <b className='card-text'>{truncate(video.title, 20)}</b>
+                                                                        <b className='card-text'>{truncate(video.title, 25)}</b>
                                                                         <p className="card-text"><small className="text-muted">Uploaded by <b>{truncate(video.user.username, 5)}</b> on {new Date(video.createdAt).toLocaleDateString()}</small></p>
                                                                     </div>
                                                                 </div>

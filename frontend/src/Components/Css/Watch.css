@@ -49,3 +49,7 @@
 .noDesc {
     font-style: italic;
 }
+
+.toggleDescription {
+    text-decoration: underline;
+}

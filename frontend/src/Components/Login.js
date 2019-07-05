@@ -14,7 +14,8 @@ class Login extends Component {
         this.login = this.login.bind(this);
     }
 
-    async login() {
+    async login(e) {
+        e.preventDefault();
         this.setState({ error: null });
         try {
             const { body } = await request
@@ -48,17 +49,18 @@ class Login extends Component {
                             : null
                     }
                     <div className='login'>
+                        <form>
+                            <div className='form-group'>
+                                <label>Username</label>
+                                <input ref='username' type='text' className='form-control' placeholder='Username' />
+                            </div>
+                            <div className='form-group'>
+                                <label>Password</label>
+                                <input ref='password' type='password' className='form-control' placeholder='Your super secure password' />
+                            </div>
+                            <button className='btn btn-primary btn-lg' type='submit' onClick={this.login}>Log in</button>
+                        </form>
                     </div>
-                    <div className='form-group'>
-                        <label>Username</label>
-                        <input ref='username' type='text' className='form-control' placeholder='Username' />
-                    </div>
-                    <div className='form-group'>
-                        <label>Password</label>
-                        <input ref='password' type='password' className='form-control' placeholder='Your super secure password' />
-                    </div>
-                    <button className='btn btn-primary btn-lg' type='submit' onClick={this.login}>Log in</button>
-
                 </div>
             </div>
         )

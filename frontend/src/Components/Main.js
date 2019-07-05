@@ -60,7 +60,7 @@ class Main extends Component {
                                                             <div className='videoThumbnail card' style={{ width: '20rem' }}>
                                                                 <img className='card-img-top' src={getThumbnailUrl(video.id)} alt='thumbnail' />
                                                                 <div className='card-body'>
-                                                                    <b className='card-text'>{truncate(video.title, 20)}</b>
+                                                                    <b className='card-text'>{truncate(video.title, 35)}</b>
                                                                     <p className="card-text"><small className="text-muted">Uploaded by <b>{truncate(video.user.username, 5)}</b> on {new Date(video.createdAt).toLocaleDateString()}</small></p>
                                                                 </div>
                                                             </div>

@@ -14,7 +14,8 @@ class Register extends Component {
         this.register = this.register.bind(this);
     }
 
-    async register() {
+    async register(e) {
+        e.preventDefault();
         this.setState({ error: null });
         if (!this.refs.username.value) {
             this.setState({ error: 'Invalid username.' });
@@ -56,20 +57,22 @@ class Register extends Component {
                             : null
                     }
                     <div className='register'>
+                        <form>
+                            <div className='form-group'>
+                                <label>Username</label>
+                                <input ref='username' type='text' className='form-control' placeholder='Username' />
+                            </div>
+                            <div className='form-group'>
+                                <label>Password</label>
+                                <input ref='password' type='password' className='form-control' placeholder='Your super secure password' />
+                            </div>
+                            <div className='form-group'>
+                                <label>Confirm Password</label>
+                                <input ref='confirmPassword' type='password' className='form-control' placeholder='Confirm your super secure password' />
+                            </div>
+                            <button className='btn btn-primary btn-lg' type='submit' onClick={this.register}>Register</button>
+                        </form>
                     </div>
-                    <div className='form-group'>
-                        <label>Username</label>
-                        <input ref='username' type='text' className='form-control' placeholder='Username' />
-                    </div>
-                    <div className='form-group'>
-                        <label>Password</label>
-                        <input ref='password' type='password' className='form-control' placeholder='Your super secure password' />
-                    </div>
-                    <div className='form-group'>
-                        <label>Confirm Password</label>
-                        <input ref='confirmPassword' type='password' className='form-control' placeholder='Confirm your super secure password' />
-                    </div>
-                    <button className='btn btn-primary btn-lg' type='submit' onClick={this.register}>Register</button>
                 </div>
             </div>
         )
